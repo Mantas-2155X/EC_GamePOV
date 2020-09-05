@@ -30,6 +30,7 @@ namespace EC_GamePOV
         
         private static float backupFov;
 
+        private static ConfigEntry<bool> useEyeAngle { get; set; }
         private static ConfigEntry<bool> hideHead { get; set; }
         private static ConfigEntry<float> fov { get; set; }
         private static ConfigEntry<float> sensitivity { get; set; }
@@ -39,6 +40,7 @@ namespace EC_GamePOV
             povEnabled = false;
 
             sensitivity = Config.Bind(new ConfigDefinition("General", "Mouse sensitivity"), 2f);
+            useEyeAngle = Config.Bind(new ConfigDefinition("General", "Use Eye Angles"), true);
             (fov = Config.Bind(new ConfigDefinition("General", "FOV"), 75f, new ConfigDescription("POV field of view", new AcceptableValueRange<float>(1f, 180f)))).SettingChanged += delegate
             {
                 if (!povEnabled || cc == null)
@@ -83,7 +85,7 @@ namespace EC_GamePOV
             povCharacter.neckLookCtrl.neckLookScript.aBones[0].neckBone.Rotate(viewRotation);
             
             cc.TargetPos = Vector3.Lerp(eyes[0].eyeTransform.position, eyes[1].eyeTransform.position, 0.5f);
-            cc.CameraAngle = eyes[0].eyeTransform.eulerAngles;
+            cc.CameraAngle = useEyeAngle.Value ? eyes[0].eyeTransform.eulerAngles : povCharacter.neckLookCtrl.neckLookScript.aBones[0].neckBone.eulerAngles;
         }
 
         public static void TogglePOV()
