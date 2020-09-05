@@ -21,6 +21,7 @@ namespace EC_GamePOV
         public static bool povEnabled;
 
         private static EyeObject[] eyes;
+        private static GameObject head;
         
         public static CameraControl_Ver2 cc;
         private static BaseCameraControl_Ver2.CameraData backupData;
@@ -45,7 +46,14 @@ namespace EC_GamePOV
 
                 cc.CameraFov = fov.Value;
             };
+            (hideHead = Config.Bind(new ConfigDefinition("General", "Hide head"), true)).SettingChanged += delegate
+            {
+                if (!povEnabled || head == null)
+                    return;
 
+                head.SetActive(!hideHead.Value);
+            };
+            
             Harmony.CreateAndPatchAll(typeof(Hooks), "EC_GamePOV");
         }
 
@@ -90,7 +98,11 @@ namespace EC_GamePOV
                 povCharacter = uiCharacter;
                 
                 eyes = povCharacter.eyeLookCtrl.eyeLookScript.eyeObjs;
+                head = povCharacter.objHeadBone;
 
+                if(hideHead.Value)
+                    head.SetActive(false);
+                
                 var data = cc.GetCameraData();
                 
                 backupData = data;
@@ -109,12 +121,15 @@ namespace EC_GamePOV
         {
             povEnabled = false;
             povCharacter = null;
+                
+            if (cc != null)
+            {
+                cc.SetCameraData(backupData);
+                cc.CameraFov = backupFov;
+            }
 
-            if (cc == null) 
-                return;
-            
-            cc.SetCameraData(backupData);
-            cc.CameraFov = backupFov;
+            if(head != null)
+                head.SetActive(true);
         }
     }
 }
