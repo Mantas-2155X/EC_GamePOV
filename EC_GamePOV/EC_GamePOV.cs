@@ -77,6 +77,9 @@ namespace EC_GamePOV
         {
             yield return new WaitForEndOfFrame();
 
+            if (povCharacter == null)
+                yield break;
+            
             povCharacter.neckLookCtrl.neckLookScript.aBones[0].neckBone.Rotate(viewRotation);
             
             cc.TargetPos = Vector3.Lerp(eyes[0].eyeTransform.position, eyes[1].eyeTransform.position, 0.5f);
@@ -117,7 +120,7 @@ namespace EC_GamePOV
             Tools.UpdateButton();
         }
         
-        private static void StopPOV()
+        public static void StopPOV()
         {
             povEnabled = false;
             povCharacter = null;
