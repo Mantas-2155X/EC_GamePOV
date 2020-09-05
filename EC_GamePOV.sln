@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EC_GamePOV", "EC_GamePOV\EC_GamePOV.csproj", "{36DB47FE-1E38-4D51-8AD2-7D06E4F46529}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36DB47FE-1E38-4D51-8AD2-7D06E4F46529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DB47FE-1E38-4D51-8AD2-7D06E4F46529}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DB47FE-1E38-4D51-8AD2-7D06E4F46529}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DB47FE-1E38-4D51-8AD2-7D06E4F46529}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
