@@ -11,6 +11,8 @@ namespace EC_GamePOV
 
         public static void CreateButton()
         {
+            EC_GamePOV.cc = Singleton<CameraControl_Ver2>.Instance;
+            
             var UI = GameObject.Find("UI");
             var orig = UI.transform.Find("System/Canvas/System/ClothMenu/btnMenu2");
 

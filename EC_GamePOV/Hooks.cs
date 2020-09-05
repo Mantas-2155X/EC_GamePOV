@@ -29,5 +29,16 @@ namespace EC_GamePOV
             EC_GamePOV.povCharacter = null;
             EC_GamePOV.uiCharacter = null;
         }
+        
+        [HarmonyPrefix, HarmonyPatch(typeof(CameraControl_Ver2), "LateUpdate")]
+        private static bool CameraControl_Ver2_LateUpdate_Patch(CameraControl_Ver2 __instance)
+        {
+            if (!EC_GamePOV.povEnabled) 
+                return true;
+            
+            Traverse.Create(__instance).Method("CameraUpdate").GetValue();
+            
+            return false;
+        }
     }
 }
