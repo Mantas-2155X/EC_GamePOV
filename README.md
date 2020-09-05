@@ -17,8 +17,8 @@ This plugin allows you to have first person view in H scenes.
 * Get the latest release for your game from https://github.com/Mantas-2155X/EC_GamePOV/releases  
 
 **Installation:**  
-* Unzip `GAME_EC_GamePOV.zip` into your game directory.  
-* You should see `GAME_EC_GamePOV.dll` in `BepInEx/Plugins/2155X/`.  
+* Unzip `EC_GamePOV.zip` into your game directory.  
+* You should see `EC_GamePOV.dll` in `BepInEx/Plugins/2155X/`.  
 
 **Configuration:**  
 * Open the plugin settings and change the settings according to your needs.  
