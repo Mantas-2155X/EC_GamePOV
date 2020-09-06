@@ -23,8 +23,10 @@ namespace EC_GamePOV
             Tools.UpdateButton();
         }
 
-        [HarmonyPrefix, HarmonyPatch(typeof(HPlayScene), "SceneEndProc")]
-        public static void HPlayScene_SceneEndProc_StopPOV()
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(HPlayScene), "GameEnd")]
+        [HarmonyPatch(typeof(HPlayScene), "SceneEndProc")]
+        public static void HPlayScene_StopPOV()
         {
             if(EC_GamePOV.povEnabled)
                 EC_GamePOV.StopPOV();
@@ -33,7 +35,7 @@ namespace EC_GamePOV
         [HarmonyPrefix, HarmonyPatch(typeof(HPlayScene), "InitPart")]
         public static void HPlayScene_InitPart_Prefix(string _UID, ref ChaControl __state)
         {
-            if (!EC_GamePOV.povEnabled) 
+            if (!EC_GamePOV.povEnabled || EC_GamePOV.povCharacter == null) 
                 return;
             
             if (Singleton<HEditData>.Instance.nodes[_UID].kind == 0)
@@ -45,14 +47,11 @@ namespace EC_GamePOV
         [HarmonyPostfix, HarmonyPatch(typeof(HPlayScene), "InitPart")]
         public static void HPlayScene_InitPart_Postfix(ref object __result, string _UID, ChaControl __state)
         {
-            if (__state == null)
-                return;
-            
             __result = new[] { __result, StartPOV() }.GetEnumerator();
 
             IEnumerator StartPOV()
             {
-                if (Singleton<HEditData>.Instance.nodes[_UID].kind != 0) 
+                if (__state == null || !__state.visibleAll || Singleton<HEditData>.Instance.nodes[_UID].kind != 0) 
                     yield break;
             
                 EC_GamePOV.uiCharacter = __state;
