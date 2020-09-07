@@ -25,6 +25,8 @@ namespace EC_GamePOV
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(HPlayScene), "GameEnd")]
+        [HarmonyPatch(typeof(HPlayScene), "SceneEnd")]
+        [HarmonyPatch(typeof(HPlayScene), "OnDestroy")]
         [HarmonyPatch(typeof(HPlayScene), "SceneEndProc")]
         public static void HPlayScene_StopPOV()
         {
@@ -37,9 +39,8 @@ namespace EC_GamePOV
         {
             if (!EC_GamePOV.povEnabled || EC_GamePOV.povCharacter == null) 
                 return;
-            
-            if (Singleton<HEditData>.Instance.nodes[_UID].kind == 0)
-                __state = EC_GamePOV.povCharacter;
+
+            __state = Singleton<HEditData>.Instance.nodes[_UID].kind == 0 ? EC_GamePOV.povCharacter : null;
             
             EC_GamePOV.StopPOV();
         }

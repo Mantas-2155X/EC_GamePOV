@@ -21,7 +21,7 @@ namespace EC_GamePOV
         public static bool povEnabled;
 
         private static EyeObject[] eyes;
-        private static Transform eyeTarget;
+        private static Transform eyeCenter;
         private static GameObject head;
         
         public static CameraControl_Ver2 cc;
@@ -81,9 +81,9 @@ namespace EC_GamePOV
                 yield break;
             
             povCharacter.neckLookCtrl.neckLookScript.aBones[0].neckBone.Rotate(viewRotation);
-            
+
             cc.TargetPos = Vector3.Lerp(eyes[0].eyeTransform.position, eyes[1].eyeTransform.position, 0.5f);
-            cc.CameraAngle = eyeTarget.eulerAngles;
+            cc.CameraAngle = eyeCenter.eulerAngles;
         }
 
         public static void TogglePOV()
@@ -101,7 +101,7 @@ namespace EC_GamePOV
                 povCharacter = uiCharacter;
                 
                 eyes = povCharacter.eyeLookCtrl.eyeLookScript.eyeObjs;
-                eyeTarget = povCharacter.eyeLookCtrl.target;
+                eyeCenter = povCharacter.transform.Find("BodyTop/p_cf_body_bone/cf_j_root/cf_n_height/cf_j_hips/cf_n_spine01/cf_j_spine01/cf_n_spine02/cf_j_spine02/cf_n_spine03/cf_j_spine03/cf_n_neck/cf_j_neck/cf_n_head/cf_j_head/cf_s_head/p_cf_head_bone/cf_J_N_FaceRoot/cf_J_FaceRoot/cf_J_FaceBase/cf_J_FaceUp_ty/cf_J_FaceUp_tz/cf_J_Eye_tz");
                 head = povCharacter.objHeadBone;
 
                 if(hideHead.Value)
@@ -137,7 +137,6 @@ namespace EC_GamePOV
 
             head = null;
             eyes = null;
-            eyeTarget = null;
         }
     }
 }
