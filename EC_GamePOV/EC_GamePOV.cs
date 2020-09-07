@@ -13,7 +13,7 @@ namespace EC_GamePOV
     [BepInPlugin(nameof(EC_GamePOV), nameof(EC_GamePOV), VERSION)]
     public class EC_GamePOV : BaseUnityPlugin
     {
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.1";
 
         public static ChaControl povCharacter;
         public static ChaControl uiCharacter;
