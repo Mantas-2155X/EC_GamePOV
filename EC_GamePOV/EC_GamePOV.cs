@@ -33,12 +33,14 @@ namespace EC_GamePOV
         private static ConfigEntry<bool> hideHead { get; set; }
         private static ConfigEntry<float> fov { get; set; }
         private static ConfigEntry<float> sensitivity { get; set; }
+        private static ConfigEntry<float> eyeForward { get; set; }
         
         private void Awake()
         {
             povEnabled = false;
 
             sensitivity = Config.Bind(new ConfigDefinition("General", "Mouse sensitivity"), 2f);
+            eyeForward = Config.Bind(new ConfigDefinition("General", "Eye forward distance"), 0.03f);
             (fov = Config.Bind(new ConfigDefinition("General", "FOV"), 75f, new ConfigDescription("POV field of view", new AcceptableValueRange<float>(1f, 180f)))).SettingChanged += delegate
             {
                 if (!povEnabled || cc == null)
@@ -57,7 +59,7 @@ namespace EC_GamePOV
             Harmony.CreateAndPatchAll(typeof(Hooks), "EC_GamePOV");
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (!povEnabled)
                 return;
@@ -75,14 +77,12 @@ namespace EC_GamePOV
 
         private static IEnumerator ApplyPOV()
         {
-            yield return new WaitForEndOfFrame();
-
             if (povCharacter == null)
                 yield break;
             
             povCharacter.neckLookCtrl.neckLookScript.aBones[0].neckBone.Rotate(viewRotation);
 
-            cc.TargetPos = Vector3.Lerp(eyes[0].eyeTransform.position, eyes[1].eyeTransform.position, 0.5f);
+            cc.TargetPos = Vector3.Lerp(eyes[0].eyeTransform.position, eyes[1].eyeTransform.position, 0.5f) + (eyeCenter.forward * eyeForward.Value);
             cc.CameraAngle = eyeCenter.eulerAngles;
         }
 
